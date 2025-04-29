@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>GIDClientID</key>
-<!-- TODO Replace this value: -->
-<!-- Copied from GoogleService-Info.plist key CLIENT_ID -->
-<string>70846535935-saheku3bcholmumktbu5ahp9uislvjd3.apps.googleusercontent.com</string>
 <key>CFBundleURLTypes</key>
 <array>
 	<dict>
@@ -15,7 +11,7 @@
 		<array>
 			<!-- TODO Replace this value: -->
 			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-			<string>com.googleusercontent.apps.70846535935-saheku3bcholmumktbu5ahp9uislvjd3</string>
+			<string>com.googleusercontent.apps.861823949799-vc35cprkp249096uujjn0vvnmcvjppkn</string>
 		</array>
 	</dict>
 </array>
