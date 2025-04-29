@@ -14,34 +14,39 @@ class _user_detailsState extends State<user_details> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackButton(
+          color: const Color.fromARGB(255, 144, 223, 170),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              Container(
+            
+              SizedBox(
                 height: 60,
                 width: 60,
                 child: logo(),
               ),
               const SizedBox(height: 20),
-                      Text(
-                              "User's personal Details",
-                              style: TextStyle(
-                                fontSize: 25,
-                                color:const Color.fromARGB(255, 192, 228, 194),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-              
+              Text(
+                "User's personal Details",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: const Color.fromARGB(255, 192, 228, 194),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
-                  
-                 height: 180,
-                 width: 400,
+                  height: 180,
+                  width: 400,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF5F7FA),
                     borderRadius: BorderRadius.circular(20),
@@ -56,13 +61,16 @@ class _user_detailsState extends State<user_details> {
                         ),
                         const SizedBox(width: 10),
                         Column(
-                          
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(height: 40,),
+                            SizedBox(
+                              height: 40,
+                            ),
                             Row(
                               children: [
-                                SizedBox(width: 30,),
+                                SizedBox(
+                                  width: 30,
+                                ),
                                 const Text(
                                   '"Name"',
                                   style: TextStyle(
@@ -74,7 +82,6 @@ class _user_detailsState extends State<user_details> {
                               ],
                             ),
                             const SizedBox(height: 6),
-                           
                           ],
                         ),
                       ],
@@ -82,10 +89,6 @@ class _user_detailsState extends State<user_details> {
                   ),
                 ),
               ),
-
-           
-
-          
               ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(50),
@@ -102,7 +105,9 @@ class _user_detailsState extends State<user_details> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Text(
                               "Details",
                               style: TextStyle(
@@ -111,14 +116,9 @@ class _user_detailsState extends State<user_details> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                           
                           ],
                         ),
                       ),
-                   
-                    
-                     
-                     
                       Padding(
                         padding: const EdgeInsets.all(25.0),
                         child: Column(
@@ -126,12 +126,12 @@ class _user_detailsState extends State<user_details> {
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SizedBox(height: 500,),
+                                SizedBox(
+                                  height: 500,
+                                ),
                               ],
                             ),
                             const SizedBox(height: 10),
-                            
-                           
                           ],
                         ),
                       ),
@@ -139,8 +139,6 @@ class _user_detailsState extends State<user_details> {
                   ),
                 ),
               ),
-
-              
             ],
           ),
         ),

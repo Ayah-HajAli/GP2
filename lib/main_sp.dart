@@ -9,6 +9,7 @@ import 'package:flutter_application_33/google_maps/user_map.dart';
 import 'package:flutter_application_33/service_provider/profile_SP.dart';
 import 'package:flutter_application_33/service_provider/Pricing.dart';
 import 'package:flutter_application_33/service_provider/upload_profile_photo.dart';
+import 'package:flutter_application_33/user/OTTP.dart';
 import 'package:flutter_application_33/user/Payment.dart';
 import 'package:flutter_application_33/user/PhoneNumber.dart';
 import 'package:flutter_application_33/user/Users_details.dart';
@@ -50,12 +51,12 @@ void main() async {
     
    ChangeNotifierProvider(create:(context) =>AuthService(),
    
-   child:const MyApp(),)
+   child:const MyApp2(),)
    );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp2 extends StatelessWidget {
+  const MyApp2({super.key});
 
  
 
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
       title: '3l tareeq',
       debugShowCheckedModeBanner: false,
       
-      home:users_profile(), 
+      home:Login(), 
     );
   }
 }

@@ -176,7 +176,7 @@ class _PricingState extends State<Pricing> {
                             backgroundColor:
                                 const Color.fromARGB(255, 7, 40, 89),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 150, vertical: 25),
+                                horizontal: 150, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

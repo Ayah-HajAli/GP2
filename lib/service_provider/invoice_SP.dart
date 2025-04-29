@@ -92,7 +92,7 @@ class _invoice_SPState extends State<invoice_SP> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 192, 228, 194),
-                      padding: EdgeInsets.symmetric(horizontal: 150, vertical: 25),
+                      padding: EdgeInsets.symmetric(horizontal: 150, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -106,7 +106,7 @@ class _invoice_SPState extends State<invoice_SP> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 100,),
+                  SizedBox(height: 80,),
                       ],
                     ),
                   ),

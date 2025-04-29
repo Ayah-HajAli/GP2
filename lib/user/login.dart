@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_33/Botton_nav_bar.dart';
+import 'package:flutter_application_33/components/auth_service.dart';
 import 'package:flutter_application_33/components/my_text_field.dart';
 import 'package:flutter_application_33/project_logo.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-
+import 'package:flutter_application_33/user/Register.dart';
+import 'package:flutter_application_33/user/dashboard_user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:animated_background/animated_background.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,161 +18,177 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
- 
+class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isObscurePassword = true;
+
   void login() async {
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill in both fields")),
-      );
-      return;
-    }
-
+    final authService = Provider.of<AuthService>(context, listen: false);
+  print("login called");
     try {
-     
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await authService.signInWithEmailAndPassword(
+        emailController.text,
+        passwordController.text,
+      ).whenComplete((){
+        print("login successful");
+        return Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => user_dashboard(),
+                                ),
+                              );
+      });
 
-     
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .get();
-
-      if (userDoc.exists) {
-        final userData = userDoc.data();
-        print("User Logged In:");
-        print("Username: ${userData?['username']}");
-        print("Mobile: ${userData?['mobile']}");
-      }
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login successful")),
-      );
-    } on FirebaseAuthException catch (e) {
-      String message = "Login failed";
-      if (e.code == 'user-not-found') {
-        message = "No user found with this email.";
-      } else if (e.code == 'wrong-password') {
-        message = "Wrong password provided.";
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
+        SnackBar(content: Text(e.toString())),
       );
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
+    final customGreen = const Color.fromARGB(255, 192, 228, 194);
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                width: 200,
-                child: logo(),
-              ),
-            
-              Column(
-                children: [
-                  SizedBox(height: 50),
-                  Text(
-                    "Login",
+      body: AnimatedBackground(
+        vsync: this,
+        behaviour: RandomParticleBehaviour(
+          options: ParticleOptions(
+            spawnMaxRadius: 200,
+            spawnMinRadius: 10,
+            spawnMinSpeed: 10,
+            spawnMaxSpeed: 15,
+            particleCount: 4,
+            spawnOpacity: 0.1,
+            maxOpacity: 0.1,
+            baseColor: customGreen,
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 200,
+                  width: 200,
+                  child: logo(),
+                ),
+                const SizedBox(height: 50),
+                const Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 45,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: MyTextField(
+                    controller: emailController,
+                    hintText: "Email",
+                    obscureText: false, suffixIcon: null,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: MyTextField(
+                    controller: passwordController,
+                    hintText: "Password",
+                    obscureText: isObscurePassword,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        isObscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                        
+                          isObscurePassword = !isObscurePassword;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: customGreen,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 150, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Login',
                     style: TextStyle(
-                      fontSize: 45,
-                      color: Colors.grey,
+                      fontSize: 18,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 40),
-                  
-                
-                            
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: MyTextField
-                    (controller: emailController,
-                     hintText: "Email", 
-                     obscureText: false),
-                  ),
-                 
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: MyTextField
-                    (controller: passwordController,
-                     hintText: "Password", 
-                     obscureText: true),
-                  ),
-                 
-                
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account?",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 5),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Text("Register"),
-                        )
-                      ],
-                    ),
-                  ),
-                 
-                  ElevatedButton(
-                    onPressed: () {
-                      login();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 192, 228, 194),
-                      padding: EdgeInsets.symmetric(horizontal: 150, vertical: 20),
+                ),
+                const SizedBox(height: 20),
+               
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton.icon(onPressed: ()=> AuthService().signInWithGoogle, style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 80, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    ), 
+                    icon: FaIcon(FontAwesomeIcons.google,color: Colors.grey,size: 25,),
+                    label: Text("Sign in with Google",style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Don't have an account?",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 5),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => const Register()),
+);
+
+                        },
+                        child: const Text(
+                          "Register",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
